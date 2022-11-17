@@ -2,3 +2,4 @@ OK ouvrir fichier et vérifier correct
 affichage curses
 classe joueur : score
 classe scène : position obstacles, taille joueurs
+joueurs : 2 avant 1

@@ -2,6 +2,7 @@ import curses
 from Scene import Scene
 
 scene = Scene()
+print(scene)
 
 stdscr = curses.initscr() #determining terminal type
 curses.noecho() #turning off automatic echoing of keys to the screen
