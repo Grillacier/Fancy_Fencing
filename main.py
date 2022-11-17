@@ -1,7 +1,13 @@
-import curses #ne marche pas avec python3.10 sur windows
+import curses
 from Scene import Scene
 
 scene = Scene()
-scene.draw("default.ffscene")
 
-#stdscr = curses.initscr()
+stdscr = curses.initscr() #determining terminal type
+curses.noecho() #turning off automatic echoing of keys to the screen
+curses.cbreak() #reacting to keys without pressing enter
+
+# curses.addstr("***************")
+# curses.nocbreak()
+# curses.echo()
+# curses.endwin()
