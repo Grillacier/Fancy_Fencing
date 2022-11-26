@@ -1,10 +1,12 @@
 class Player:
-    def __init__(self, first, name = "Player") -> None:
+    def __init__(self, first, name = "Player", x = 0 , y = 0) -> None:
         self.first = first
         self.name = name
         self.height = 5
         self.first = first
         self.score = 0
+        self.x = x
+        self.y = y
 
     def head(self) -> str:
         if self.first:
@@ -34,21 +36,27 @@ class Player:
         character += self.feet()
         return character
 
-    # def drawPlayer(self) -> str:
-    #     character = ""
-    #     if self.first:
-    #         character += "(╬ಠ益ಠ)\n"
-    #         character += "   |_/\n"
-    #     else:
-    #         character += "(–︿–ꐦ)\n"
-    #         character += " \_|  \n"
-    #     for i in range(self.height-3):
-    #         character += "   |   \n"
-    #     if self.first:
-    #         character += "  /|  "
-    #     else:
-    #         character += "   |\ "
-    #     return character
+    def drawPlayer(self) -> str:
+        character = ""
+        if self.first:
+            character += "(╬ಠ益ಠ)\n"
+            character += "   |_/\n"
+        else:
+            character += "(–︿–ꐦ)\n"
+            character += " \_|  \n"
+        for i in range(self.height-3):
+            character += "   |   \n"
+        if self.first:
+            character += "  /|  "
+        else:
+            character += "   |\ "
+        return character
 
+    def moveRight(self) -> None:
+        self.x += 1
+    
+    def moveLeft(self) -> None:
+        self.x -= 1
+        
     def __str__(self) -> str:
         return self.drawPlayer()
