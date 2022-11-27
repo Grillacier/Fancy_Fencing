@@ -1,51 +1,47 @@
 #!/usr/bin/env python3
 import curses
 from Scene import Scene
-
+import Player
+import threading
+import time
 
 scene = Scene()
+curses.noecho()
+#threads des déplacements des joueurs (t1 et t2)
+t1 = threading.Thread(target=scene.moving, args=(1,))
+t2 = threading.Thread(target=scene.moving, args=(2,))
+t3 = threading.Thread(target=scene.readKey , args=()) #readKey pour réveiller bon thread
+num_rows, num_cols = scene.screen.getmaxyx()
+scene.screen.addstr(int(num_rows / 2), 0, str(scene))
+scene.addObstacles(int(num_rows))
+scene.add_player_scene(1, num_rows)
+scene.add_player_scene(2, num_rows)
+t1.start()
+t2.start()
+t3.start()
 
-screen = curses.initscr()
+i = 0
+while(True):
+# thread principal pour màj affichage
+    scene.verrou.acquire()
+    scene.screen.clear()
+    scene.screen.addstr(int(num_rows / 2), 0, str(scene))
+    scene.addObstacles(int(num_rows))
+    scene.add_player_scene(1, num_rows)
+    scene.add_player_scene(2, num_rows)
+    scene.screen.refresh()
+    scene.verrou.release()
+    #TODO: remplacer 30 par nombre fps entré en argumentd
+    time.sleep(1/30)
+    
 
-# Update the buffer, adding text at different locations
 
-curses.cbreak()
-screen.keypad(1)
-num_rows, num_cols = screen.getmaxyx()
-screen.addstr(int(num_rows / 2),0, str(scene))
-screen.addstr(int(num_rows / 2)+4,2, "p")
-screen.refresh()
+# # Changes go in to the screen buffer and only get
+# # displayed after calling `refresh()` to update
 
-key = ''
-while key != ord('m'):
-    key = screen.getch()
-    screen.addch(20,25,key)
-    screen.refresh()
-    if chr(key) == 'd': 
-        scene.moveRight(1)
-    elif chr(key) == 'q': 
-        scene.moveLeft(1)
-    elif key == curses.KEY_RIGHT:
-        scene.moveRight(2)
-    elif key == curses.KEY_LEFT: 
-        scene.moveLeft(2)
-    screen.addstr(int(num_rows / 2), 0, str(scene))
-    screen.addstr(int(num_rows / 2)+4,2, "p")
-    screen.refresh()
+# #stdscr = curses.initscr() #determining terminal type
+# #curses.noecho() #turning off automatic echoing of keys to the screen
+# #curses.cbreak() #reacting to keys without pressing enter
+
+# # curses.addstr("***************")
 curses.endwin()
-
-
-# Changes go in to the screen buffer and only get
-# displayed after calling `refresh()` to update
-screen.refresh()
-
-curses.napms(3000)
-curses.endwin()
-#stdscr = curses.initscr() #determining terminal type
-#curses.noecho() #turning off automatic echoing of keys to the screen
-#curses.cbreak() #reacting to keys without pressing enter
-
-# curses.addstr("***************")
-# curses.nocbreak()
-# curses.echo()
-# curses.endwin()
