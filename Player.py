@@ -15,21 +15,6 @@ class Player:
         self.attacking_range = 1
         self.mouvement_speed = 1
 
-    def drawPlayer(self) -> str:
-        character = ""
-        character += "o\n" 
-        if self.player == 1:
-            character += "|_/\n"
-        else:
-            character +=  "\_|\n"
-        for i in range(self.height-3):
-            character += "|\n"
-        if self.player == 1:    
-            character += "/|\n"
-        else:
-            character += "|\ \n"
-        return character
-
     def moveRight(self) -> None:
         self.x += 1
     
@@ -45,9 +30,7 @@ class Player:
         
     def pdown(self) -> None:
         self.y = 0
-    def __str__(self) -> str:
-        return self.drawPlayer()
-    
+
     # constructors
     def getX(self) -> int:
         return self.x
@@ -61,4 +44,14 @@ class Player:
     def setY(self, y) -> None:
         self.y = y
 
-    
+    def getState(self) -> list:
+        return [self.attack, self.block, self.rest]
+
+    def setAttack(self, attack) -> None:
+        self.attack = attack
+
+    def setBlock(self, block) -> None:
+        self.block = block
+
+    def setRest(self, rest) -> None:
+        self.rest = rest

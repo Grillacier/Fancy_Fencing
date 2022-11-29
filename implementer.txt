@@ -1,5 +1,8 @@
 OK ouvrir fichier et vérifier correct
 affichage curses
-classe joueur : score
+classe joueur : score, position
 classe scène : position obstacles, taille joueurs
 joueurs : 2 avant 1
+fonction qui dit si un obstacle est devant un joueur
+si joueur saute, empêcher l'autre d'avancer vers lui (mur invisible)
+traduire commentaires français en anglais
