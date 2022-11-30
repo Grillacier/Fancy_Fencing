@@ -1,63 +1,34 @@
-#!/usr/bin/env python3
 import curses
-from Scene import Scene
-import Player
 import threading
 import time
-import math
-import os
+from Scene import Scene
+from Configuration import Configuration
 
-# Liste tous les fichiers (scenes) dans le répertoir scenes
-def list_scenes():
-    scenes = dict()
-    for file in os.listdir("scenes"):
-        with open("scenes/"+file, "r") as f:
-            scenes["scenes/"+file] = f.readline()
-    return scenes
-
-# Demande à l'utilisateur de choisir les paramètres de la partie
-def choiceParam():
-    try: 
-        fps = int(input("Enter the number of frames per second: "))
-        player_name1 = input("Enter the name of the player 1: ")
-        mouvement_speed_player1 = int(input("Enter the mouvement speed of the player 1: "))
-        attacking_range_player1 = int(input("Enter the attacking range of the player 1: "))
-        attacking_speed_player1 = int(input("Enter the attacking speed of the player 1: "))
-        blocking_time_player1 = int(input("Enter the blocking time of the player 1: "))
-        player_name2 = input("Enter the name of the player 2: ")
-        mouvement_speed_player2 = int(input("Enter the mouvement speed of the player 2: "))
-        attacking_range_player2 = int(input("Enter the attacking range of the player 2: "))
-        attacking_speed_player2 = int(input("Enter the attacking speed of the playedr 2: "))
-        blocking_time_player2 = int(input("Enter the blocking time of the player 2: "))
-        return (fps, player_name1, mouvement_speed_player1, attacking_range_player1, attacking_speed_player1, blocking_time_player1,
-         player_name2, mouvement_speed_player2, attacking_range_player2, attacking_speed_player2, blocking_time_player2)
-    except ValueError:
-        print("Please enter a number")
-        exit()
-
-c = input("Do you want to play with the default scene? (y/n) ") # Demande à l'utilisateur s'il veut jouer avec la scène par défaut 
+config = Configuration()
+# ask the user if they want to play on the default scene
+c = input("Do you want to play with the default scene? (y/n) ")
 if c == "y":
-       file_scene = "default.ffscene" # Si oui, on utilise la scène par défaut
+       file_scene = "default.ffscene"
 else :
-    scenes = list_scenes() # Sinon, on liste les scènes disponibles
+    scenes = config.list_scenes()
     i = 1
     d = dict()
     for key, value in scenes.items():
-        print(i, value)
+        print(i, "->", value)
         d[i] = key
         i += 1
-    # On demande à l'utilisateur de choisir une scène parmi les scènes disponibles
+    # the user chooses a scene among those existing
     while True:
         try :
-            file_scene = d[int(input("Enter the number of the scene you want to play: "))] 
+            file_scene = d[int(input("Choose the number of the scene you want to play: "))] 
             print(file_scene)
             break
         except :
-            print("Please enter a valid number") # Si l'utilisateur entre un nombre invalide, on lui redemande de choisir une scène        
+            print("Please Choose a valid number") # Si l'utilisateur entre un nombre invalide, on lui redemande de choisir une scène        
 
 c = input("Do you want to play with the default parameters? (y/n) ") # Demande à l'utilisateur s'il veut jouer avec les paramètres par défaut
 if(c=='n'):
-    param = choiceParam()
+    param = config.choiceParam()
     scene = Scene(file=file_scene)
     scene.setParam(param[0], param[1], param[2], param[3], param[4], param[5], param[6], param[7], param[8], param[9], param[10])
 else:
@@ -100,7 +71,7 @@ while(scene.finish!=3):
 
 # #stdscr = curses.initscr() #determining terminal type
 # #curses.noecho() #turning off automatic echoing of keys to the screen
-# #curses.cbreak() #reacting to keys without pressing enter
+# #curses.cbreak() #reacting to keys without pressing Choose
 
 # # curses.addstr("***************")
 curses.endwin()

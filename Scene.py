@@ -35,7 +35,7 @@ class Scene:
             elif opened == 3:
                 Scene.screen.addstr("Player 2 can't be before Player 1, couldn't initialize the stage\n")
             elif opened == 4:
-                Scene.screen.addstr("There should only be '1', '2' and '_' in the file, couldn't initialize the stage\n")
+                Scene.screen.addstr("There should at least be '1', '2' and '_' in the file, couldn't initialize the stage\n")
             self.finalize()
    
     # constructors
